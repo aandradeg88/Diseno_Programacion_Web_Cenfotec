@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Librería El Párrafo Perdido</title>
+</head>
+
+<body>
+
+  <header>
+    <h1><i class="fa-solid fa-book"></i> Librería El Párrafo Perdido</h1>
+    <p>Tu rincón favorito para descubrir nuevas historias.</p>
+
+</header>
+
+  <hr>
+
+  <nav>
+    <a href="#inicio">Inicio</a> |
+    <a href="#catalogo">Catálogo</a> |
+    <a href="#novedades">Novedades</a> |
+    <a href="#eventos">Eventos</a> |
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <hr>
+
+  <main>
+
+    <section id="inicio">
+      <h2>Bienvenidos a nuestra librería</h2>
+      <p>
+        En <strong>El Párrafo Perdido</strong> encontrarás una cuidadosa selección de libros de todos los géneros:
+        literatura clásica, ciencia ficción, novela gráfica, ensayo, poesía y mucho más. Nuestro equipo de libreros
+        expertos está siempre listo para ayudarte a encontrar tu próxima lectura favorita.
+      </p>
+      <img src="/Users/andres/Documents/CENFOTEC/4-Q/Desarrollo%20y%20Programacion%20Web/Diseno_Programacion_Web_Cenfotec/jpg/librero.png"
+        alt="Iterior de una lnibrería clásica con estantes llenos de libros"
+        width="600" />
+      <br>
+      <p><em>Foto: Una librería clásica con estantes rebosantes de conocimiento.</em></p>
+    </section>
+
+    <hr>
+
+    <section id="catalogo">
+      <h2>Catálogo Destacado</h2>
+      <p>
+        Nuestra selección incluye títulos de autores nacionales e internacionales. Actualizamos nuestro inventario
+        cada semana para ofrecerte siempre las mejores opciones. A continuación encontrarás algunos de los títulos
+        más solicitados del mes.
+      </p>
+
+      <h3>Tabla de libros más vendidos</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Género</th>
+            <th>Precio (₡)</th>
+            <th>Disponibilidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Harry Potter y la piedra filosofal</td>
+            <td>J.K. Rowling</td>
+            <td>Fantasía</td>
+            <td>13,000</td>
+            <td>En stock</td>
+          </tr>
+          <tr>
+            <td>Juego de Tronos</td>
+            <td>George R.R. Martin</td>
+            <td>Fantasía épica</td>
+            <td>15,500</td>
+            <td>En stock</td>
+          </tr>
+          <tr>
+            <td>El Señor de los Anillos</td>
+            <td>J.R.R. Tolkien</td>
+            <td>Fantasía épica</td>
+            <td>14,000</td>
+            <td>Últimas unidades</td>
+          </tr>
+          <tr>
+            <td>It (Eso)</td>
+            <td>Stephen King</td>
+            <td>Terror</td>
+            <td>12,000</td>
+            <td>En stock</td>
+          </tr>
+          <tr>
+            <td>El código Da Vinci</td>
+            <td>Dan Brown</td>
+            <td>Misterio</td>
+            <td>11,500</td>
+            <td>Agotado</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr>
+
+    <section id="novedades">
+      <h2>Novedades del Mes</h2>
+
+      <h3>Pasos para hacer tu pedido en línea</h3>
+      <ol>
+        <li>Selecciona el libro de nuestro catálogo en línea.</li>
+        <li>Agrégalo al carrito de compras.</li>
+        <li>Regístrate o inicia sesión en tu cuenta.</li>
+        <li>Elige el método de pago y confirma tu dirección.</li>
+        <li>Recibe tu libro en casa en 2 a 5 días hábiles.</li>
+      </ol>
+
+      <h3>Géneros disponibles en nuestra tienda</h3>
+      <ul>
+        <li>Literatura clásica y contemporánea</li>
+        <li>Ciencia ficción y fantasía</li>
+        <li>Misterio y thriller</li>
+        <li>Historia y ensayo</li>
+        <li>Autoayuda y desarrollo personal</li>
+        <li>Libros infantiles y juveniles</li>
+        <li>Novela gráfica y cómics</li>
+      </ul>
+
+      <img src="/Users/andres/Documents/CENFOTEC/4-Q/Desarrollo y Programacion Web/Diseno_Programacion_Web_Cenfotec/jpg/image.png"
+        alt="Libros apilados"
+        width="600" />
+    </section>
+
+    <hr>
+
+    <section id="eventos">
+      <h2>Eventos y Actividades</h2>
+      <h3>Próximas actividades en la librería</h3>
+      <p>
+        &#127881; En <strong>El Párrafo Perdido</strong> organizamos eventos culturales durante todo el año. Desde
+        clubes de lectura hasta presentaciones de autores locales, siempre hay algo nuevo por descubrir. Consulta
+        nuestra agenda y reserva tu lugar con anticipación.
+      </p>
+      <ul>
+        <li><strong>Club de lectura</strong> – Todos los sábados a las 10:00 a.m.</li>
+        <li><strong>Presentación de autor</strong> – 15 de junio, 6:00 p.m.</li>
+        <li><strong>Feria del libro infantil</strong> – 22 de junio, todo el día.</li>
+        <li><strong>Taller de escritura creativa</strong> – 29 de junio, 4:00 p.m.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <hr>
+
+  <footer id="contacto">
+    <h2>Contacto e Información</h2>
+    <p>
+        <strong>Dirección:</strong> Avenida Central, Calle 5, San José, Costa Rica<br>
+        <strong>Teléfono:</strong> (506) 2222-3344<br>
+        <strong>Correo electrónico:</strong> info@elpárrafoperdido.cr<br>
+        <strong>Horario:</strong> Lunes a sábado de 9:00 a.m. a 7:00 p.m.
+    </p>
+    <p>&#169; 2024 Librería El Párrafo Perdido. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+
+</html>
