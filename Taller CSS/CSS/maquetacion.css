@@ -1,0 +1,44 @@
+/* comentario */
+
+/* Selectores: identifican y delimitan los elementos HTML a los cuales se les aplica ese estilo 
+Selector{
+    propiedad: valor;
+    otra-propiedad: valor;
+    }
+
+*/
+
+/* Selector por etiqueta */
+
+
+h1, h2{
+    background-color:rgb(211, 179, 240);
+
+}
+
+/* Selector por clase */ 
+.destacado{
+    color: #0bb01b;
+    font-size: 18px;
+}
+
+.linea-lateral{
+    border-left: 5px solid green;
+    border-radius: 2px;
+}
+
+/* Selector universal */
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Selector por id */
+#titulo-principal{
+color: #04444a;
+    font-size: 18px;
+    border-bottom: 2px solid #0ba2b0;
+}
+
+/* Selector por atributo 
+TODO: Al ver el tema de formularios */
+
