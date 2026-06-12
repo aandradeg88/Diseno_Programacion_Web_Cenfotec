@@ -18,7 +18,8 @@ selector{
     /*flex-direction: row; <!-- cambia la direccion de los elementos -->
     */
         
-    justify-content: space-around; <!-- alinea los elementos horizontalmente -->
+    justify-content: space-around; /* alinea los elementos horizontalmente */
+    
 
 
 }
