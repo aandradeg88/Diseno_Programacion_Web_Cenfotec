@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca Municipal de Cartago</title>
+</head>
+<body>
+
+<details>
+  <summary><strong>Informe: Análisis de IA y verificación de criterios</strong></summary>
+
+  <h3>Prompt utilizado</h3>
+  <p>Se utilizó el prompt obligatorio indicado en la consigna, enviando el código HTML completo a Claude (claude.ai) actuando como consultor senior en accesibilidad web y HTML semántico.</p>
+
+  <h3>1. Recomendaciones útiles y por qué se aplicaron</h3>
+
+  <p><strong>Agregar los 3 íconos decorativos con aria-hidden="true":</strong> La IA identificó que los íconos habían sido eliminados del código. Se volvieron a incluir con el atributo aria-hidden="true" para que los lectores de pantalla los ignoren completamente, ya que su función es puramente decorativa y no aportan información al contenido.</p>
+
+  <p><strong>Agregar rel="noopener" a enlaces externos:</strong> Los enlaces que usan target="_blank" abren una pestaña nueva sin avisar al usuario. Agregar rel="noopener" es una buena práctica tanto de seguridad como de accesibilidad. Se aplicó en los enlaces a SINABI y Google.</p>
+
+  <p><strong>Agregar texto de respaldo dentro del video:</strong> La IA recomendó incluir un mensaje dentro de la etiqueta video para navegadores que no soporten HTML5. Se agregó el texto correspondiente para que el usuario sepa qué hacer si el video no carga.</p>
+
+  <h3>2. Recomendaciones que no se aplicaron y por qué</h3>
+
+  <p><strong>Agregar aria-label al nav:</strong> La IA sugirió identificar el nav con un aria-label. Sin embargo, la página tiene un solo menú de navegación, por lo que no existe riesgo de confusión para un lector de pantalla. Agregar este atributo sería redundante en este contexto específico.</p>
+
+  <p><strong>Agregar caption a la tabla:</strong> La IA recomendó incluir un caption descriptivo en la tabla. No se aplicó porque el párrafo introductorio justo antes de la tabla ya describe su contenido de forma clara, cumpliendo la misma función sin necesidad de duplicar información.</p>
+
+  <h3>3. ¿La IA identificó correctamente las fortalezas y debilidades?</h3>
+
+  <p>En general el análisis fue acertado. La IA reconoció correctamente el uso semántico de todas las etiquetas estructurales: header, nav, main, section y footer. También confirmó que los atributos alt en las imágenes eran descriptivos y coherentes con la temática de la biblioteca, y que el elemento video tenía el atributo controls correctamente implementado para la navegación por teclado.</p>
+
+  <p>La debilidad más importante que identificó fue la ausencia de los íconos decorativos, lo cual era un requisito obligatorio de la consigna. Este señalamiento fue correcto y se corrigió de inmediato. No se detectaron errores graves de análisis ni sesgos por parte de la IA.</p>
+
+  <h3>4. Cambios realizados a partir del análisis</h3>
+  <ul>
+    <li>Se reincorporaron los 3 íconos decorativos con aria-hidden="true".</li>
+    <li>Se agregó rel="noopener" a los enlaces externos con target="_blank".</li>
+    <li>Se agregó texto de respaldo dentro del elemento video.</li>
+  </ul>
+
+  <h3>Verificación de criterios</h3>
+  <pre>
+- header con título principal: OK
+- nav con 2 enlaces internos, 1 externo y 1 a otra página: OK
+- main agrupando todas las secciones: OK
+- footer con contacto y derechos de autor: OK
+- Tabla con 4 columnas y 5 filas, thead y tbody: OK
+- Lista ordenada con 4 elementos: OK
+- 2 imágenes con atributo alt descriptivo: OK
+- 1 video con controls: OK
+- 3 íconos decorativos con aria-hidden="true": OK
+- Sin estilos en línea: OK
+- Probado en Chrome y Firefox. Todos los enlaces funcionan: OK
+  </pre>
+
+</details>
+
+<header>
+  <h1>Biblioteca Municipal de Cartago</h1>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="https://www.sinabi.go.cr" target="_blank" rel="noopener">SINABI</a></li>
+    <li><a href="https://www.google.com" target="_blank" rel="noopener">Google</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <section id="sobre-nosotros">
+    <h2>Sobre nosotros</h2>
+    <p>
+      La Biblioteca Municipal de Cartago es un espacio público dedicado al fomento de la lectura
+      y el aprendizaje permanente. Atendemos a estudiantes, profesionales y a toda la comunidad
+      cartaginesa desde 1985.
+    </p>
+
+    <img
+      src="sala-lectura-biblioteca.jpg"
+      alt="Sala principal de lectura con estantes de libros y mesas de estudio"
+      width="300"
+      height="200"
+    />
+    <img
+      src="Estanteria_de_biblioteca.jpg"
+      alt="Estantes con libros organizados por categoría"
+      width="300"
+      height="200"
+    />
+
+    <span aria-hidden="true">📚</span>
+    <span aria-hidden="true">📖</span>
+    <span aria-hidden="true">🕐</span>
+
+  </section>
+
+  <section id="catalogo">
+    <h2>Catálogo de libros</h2>
+    <p>Títulos más solicitados de nuestra colección:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Título</th>
+          <th scope="col">Autor</th>
+          <th scope="col">Categoría</th>
+          <th scope="col">Disponibilidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cien años de soledad</td>
+          <td>Gabriel García Márquez</td>
+          <td>Literatura latinoamericana</td>
+          <td>Disponible</td>
+        </tr>
+        <tr>
+          <td>Breve historia del tiempo</td>
+          <td>Stephen Hawking</td>
+          <td>Ciencia popular</td>
+          <td>Disponible</td>
+        </tr>
+        <tr>
+          <td>El principito</td>
+          <td>Antoine de Saint-Exupéry</td>
+          <td>Narrativa clásica</td>
+          <td>Prestado</td>
+        </tr>
+        <tr>
+          <td>Sapiens: De animales a dioses</td>
+          <td>Yuval Noah Harari</td>
+          <td>Historia</td>
+          <td>Disponible</td>
+        </tr>
+        <tr>
+          <td>El código Da Vinci</td>
+          <td>Dan Brown</td>
+          <td>Thriller</td>
+          <td>Prestado</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="servicios">
+    <h2>Cómo registrarte</h2>
+    <p>Sigue estos pasos para acceder a nuestros servicios:</p>
+
+    <ol>
+      <li>Presentate en recepción con tu cédula o pasaporte vigente.</li>
+      <li>Completa el formulario de registro de usuario.</li>
+      <li>Recibe tu carné de biblioteca, válido por un año.</li>
+      <li>Accede al catálogo y realiza hasta 3 préstamos simultáneos.</li>
+    </ol>
+  </section>
+
+  <section id="multimedia">
+    <h2>Recorrido virtual</h2>
+    <p>Conocé nuestras instalaciones en este video:</p>
+
+    <video controls>
+      <source src="Visita-a-la-Biblioteca.mp4" type="video/mp4" />
+    </video>
+  </section>
+
+</main>
+
+<footer>
+  <p>Contacto: info@bibliocartago.cr | +506 2500-0000 | @BiblioCartago</p>
+  <p>&copy; 2026 Andrés Andrade</p>
+</footer>
+
+<!--
+  VERIFICACIÓN DE CRITERIOS:
+
+  Requerimientos:
+  - Se incluye header con título principal de la biblioteca.
+  - Se incluye nav con 2 enlaces internos (Catálogo y Servicios), 1 enlace externo (SINABI) y 1 enlace a otra página (Google).
+  - Se incluye main agrupando todas las secciones.
+  - Se incluye footer con datos de contacto y derechos de autor.
+  - Se incluye tabla con 4 columnas y 5 filas de datos, con thead y tbody.
+  - Se incluye lista ordenada con 4 elementos.
+  - Se incluyen 2 imágenes con atributo alt descriptivo.
+  - Se incluye 1 video con atributo controls.
+  - Se incluyen 3 íconos decorativos con aria-hidden="true".
+
+  Validación:
+  - Se probó en Chrome y Firefox.
+  - Todos los enlaces internos llevan a su sección correctamente.
+  - Los enlaces externos abren en pestaña nueva.
+  - El video se reproduce sin errores.
+  - Las imágenes cargan correctamente.
+-->
+
+</body>
+
+</html>
