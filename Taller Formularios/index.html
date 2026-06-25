@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crear contraseña — CENFOTEC Egresados</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="page">
+    <div class="card">
+
+      <div class="card-header">
+        <div class="icon-circle">🔒</div>
+        <h1>Crear nueva contraseña</h1>
+        <p>Sistema de Gestión de Egresados — CENFOTEC</p>
+      </div>
+
+      <div class="field">
+        <label for="nueva-contrasena">Nueva contraseña</label>
+        <div class="input-group">
+          <input
+            type="password"
+            id="nueva-contrasena"
+            placeholder="Ingresa tu nueva contraseña"
+            autocomplete="new-password"
+          />
+          <button type="button" class="toggle-btn" onclick="toggleVisibilidad('nueva-contrasena', this)">
+            👁
+          </button>
+        </div>
+
+        <div class="barra-fortaleza">
+          <span id="s1"></span>
+          <span id="s2"></span>
+          <span id="s3"></span>
+          <span id="s4"></span>
+        </div>
+        <p class="fortaleza-label" id="fortaleza-label">Ingresa una contraseña para ver su fortaleza</p>
+
+        <ul class="reglas">
+          <li id="r-len">✗ Mínimo 8 caracteres</li>
+          <li id="r-upper">✗ Al menos una mayúscula</li>
+          <li id="r-num">✗ Al menos un número</li>
+          <li id="r-special">✗ Al menos un carácter especial</li>
+        </ul>
+      </div>
+
+      <div class="field">
+        <label for="confirmar-contrasena">Confirmar contraseña</label>
+        <div class="input-group">
+          <input
+            type="password"
+            id="confirmar-contrasena"
+            placeholder="Repite la contraseña"
+            autocomplete="new-password"
+          />
+          <button type="button" class="toggle-btn" onclick="toggleVisibilidad('confirmar-contrasena', this)">
+            👁
+          </button>
+        </div>
+        <p class="mensaje-coincidencia" id="mensaje-coincidencia"></p>
+      </div>
+
+      <button class="btn-guardar" id="btn-guardar" disabled onclick="guardar()">
+        Guardar contraseña
+      </button>
+
+      <div class="toast" id="toast">
+        ✓ Contraseña actualizada correctamente.
+      </div>
+
+      <p class="volver">
+        <a href="#">← Volver al inicio de sesión</a>
+      </p>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleVisibilidad(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
+
+    function verificarReglas(valor) {
+      return {
+        len:     valor.length >= 8,
+        upper:   /[A-Z]/.test(valor),
+        num:     /[0-9]/.test(valor),
+        special: /[^A-Za-z0-9]/.test(valor)
+      };
+    }
+
+    function actualizarRegla(id, cumple) {
+      const el = document.getElementById(id);
+      const textos = {
+        'r-len':     'Mínimo 8 caracteres',
+        'r-upper':   'Al menos una mayúscula',
+        'r-num':     'Al menos un número',
+        'r-special': 'Al menos un carácter especial'
+      };
+      el.textContent = (cumple ? '✓ ' : '✗ ') + textos[id];
+      el.className = cumple ? 'cumple' : '';
+    }
+
+    document.getElementById('nueva-contrasena').addEventListener('input', function () {
+      const valor = this.value;
+      const reglas = verificarReglas(valor);
+      const puntaje = Object.values(reglas).filter(Boolean).length;
+
+      actualizarRegla('r-len',     reglas.len);
+      actualizarRegla('r-upper',   reglas.upper);
+      actualizarRegla('r-num',     reglas.num);
+      actualizarRegla('r-special', reglas.special);
+
+      const colores = ['', '#e24b4a', '#ef9f27', '#378add', '#1d9e75'];
+      const etiquetas = ['', 'Débil', 'Regular', 'Buena', 'Fuerte'];
+      const barras = ['s1', 's2', 's3', 's4'];
+
+      barras.forEach(function (id, i) {
+        const barra = document.getElementById(id);
+        barra.style.backgroundColor = (i < puntaje && puntaje > 0) ? colores[puntaje] : '#ddd';
+      });
+
+      const label = document.getElementById('fortaleza-label');
+      label.textContent = valor.length === 0
+        ? 'Ingresa una contraseña para ver su fortaleza'
+        : 'Fortaleza: ' + (etiquetas[puntaje] || '');
+      label.style.color = puntaje > 0 ? colores[puntaje] : '#999';
+
+      validarFormulario();
+    });
+
+    document.getElementById('confirmar-contrasena').addEventListener('input', validarFormulario);
+
+    function validarFormulario() {
+      const np = document.getElementById('nueva-contrasena').value;
+      const cp = document.getElementById('confirmar-contrasena').value;
+      const reglas = verificarReglas(np);
+      const todasCumplen = Object.values(reglas).every(Boolean);
+      const mensaje = document.getElementById('mensaje-coincidencia');
+      const btn = document.getElementById('btn-guardar');
+
+      if (cp.length > 0) {
+        if (np === cp) {
+          mensaje.textContent = '✓ Las contraseñas coinciden';
+          mensaje.className = 'mensaje-coincidencia ok';
+        } else {
+          mensaje.textContent = '✗ Las contraseñas no coinciden';
+          mensaje.className = 'mensaje-coincidencia error';
+        }
+      } else {
+        mensaje.textContent = '';
+        mensaje.className = 'mensaje-coincidencia';
+      }
+
+      btn.disabled = !(todasCumplen && cp.length > 0 && np === cp);
+    }
+
+    function guardar() {
+      const btn = document.getElementById('btn-guardar');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+      setTimeout(function () {
+        document.getElementById('toast').style.display = 'block';
+        btn.textContent = 'Contraseña guardada';
+      }, 1200);
+    }
+  </script>
+
+</body>
+</html>

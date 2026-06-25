@@ -1,0 +1,211 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  color: #222;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #dde3ea;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Encabezado */
+.card-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.icon-circle {
+  font-size: 28px;
+  background-color: #e6f1fb;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.card-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.card-header p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Campos */
+.field {
+  margin-bottom: 1.25rem;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.input-group input {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background-color: #fff;
+  color: #222;
+}
+
+.input-group input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #378add inset;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Barra de fortaleza */
+.barra-fortaleza {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.barra-fortaleza span {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background-color: #ddd;
+  transition: background-color 0.2s;
+}
+
+.fortaleza-label {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+}
+
+/* Lista de reglas */
+.reglas {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  margin-top: 10px;
+}
+
+.reglas li {
+  font-size: 12px;
+  color: #999;
+}
+
+.reglas li.cumple {
+  color: #0f6e56;
+}
+
+/* Mensaje de coincidencia */
+.mensaje-coincidencia {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #999;
+}
+
+.mensaje-coincidencia.ok {
+  color: #0f6e56;
+}
+
+.mensaje-coincidencia.error {
+  color: #a32d2d;
+}
+
+/* Botón principal */
+.btn-guardar {
+  width: 100%;
+  height: 42px;
+  background-color: #185fa5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background-color 0.15s;
+}
+
+.btn-guardar:hover {
+  background-color: #0c447c;
+}
+
+.btn-guardar:disabled {
+  background-color: #a0b8d0;
+  cursor: not-allowed;
+}
+
+/* Toast de éxito */
+.toast {
+  display: none;
+  background-color: #eaf3de;
+  border: 1px solid #639922;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #27500a;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Enlace de regreso */
+.volver {
+  text-align: center;
+  margin-top: 1.1rem;
+  font-size: 13px;
+  color: #666;
+}
+
+.volver a {
+  color: #185fa5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.volver a:hover {
+  text-decoration: underline;
+}
