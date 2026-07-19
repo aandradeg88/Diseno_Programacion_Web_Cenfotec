@@ -56,20 +56,23 @@
 
     <section>
       <h2>Crear egresado</h2>
-      <form action="#" method="post">
+      <form id="formEgresado">
         <div class="campo">
           <label for="carne">Carné</label>
           <input type="text" id="carne" name="carne" placeholder="Ej: 2024010001" required>
+          <span class="error" id="errorCarne"></span>
         </div>
 
         <div class="campo">
           <label for="nombre">Nombre completo</label>
           <input type="text" id="nombre" name="nombre" placeholder="Nombre y apellidos" required>
+          <span class="error" id="errorNombre"></span>
         </div>
 
         <div class="campo">
           <label for="correo-egresado">Correo electrónico</label>
           <input type="email" id="correo-egresado" name="correo-egresado" placeholder="correo@ucenfotec.ac.cr" required>
+          <span class="error" id="errorCorreo"></span>
         </div>
 
         <div class="campo">
@@ -80,15 +83,22 @@
             <option value="redes">Ingeniería en Redes y Seguridad</option>
             <option value="datos">Ingeniería en Ciencia de Datos</option>
           </select>
+          <span class="error" id="errorCarrera"></span>
         </div>
 
         <div class="campo">
           <label for="anio">Año de graduación</label>
           <input type="number" id="anio" name="anio" min="2000" max="2026" placeholder="Ej: 2024" required>
+          <span class="error" id="errorAnio"></span>
         </div>
 
         <button type="submit">Guardar egresado</button>
       </form>
+
+      <article id="mensajeConfirmacion" class="confirmacion oculto">
+        <p>El egresado se registró correctamente.</p>
+
+      </article>
     </section>
   </main>
 
@@ -96,5 +106,6 @@
     <p>&copy; 2026 Universidad CENFOTEC. Todos los derechos reservados.</p>
   </footer>
 
+  <script src="js/script.js"></script>
 </body>
 </html>
