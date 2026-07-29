@@ -13,6 +13,9 @@ const errorCarrera = document.getElementById('errorCarrera');
 const errorAnio = document.getElementById('errorAnio');
 
 const mensajeConfirmacion = document.getElementById('mensajeConfirmacion');
+const cuerpoTablaEgresados = document.getElementById('cuerpoTablaEgresados');
+const indiceEdicion = document.getElementById('indiceEdicion');
+const botonGuardar = document.getElementById('botonGuardar');
 
 // Expresiones regulares para validar el formato de cada campo
 const regexCarne = /^[0-9]{10}$/;
@@ -86,6 +89,8 @@ formEgresado.addEventListener('submit', function (evento) {
   guardarEnLocalStorage(nuevoEgresado);
 
   formEgresado.reset();
+  indiceEdicion.value = '';
+  botonGuardar.textContent = 'Guardar egresado';
 
   mensajeConfirmacion.classList.remove('oculto');
 });
@@ -94,11 +99,20 @@ function guardarEnLocalStorage(egresado) {
   const egresadosGuardados = localStorage.getItem('egresados');
   const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
 
-  listaEgresados.push(egresado);
+  if (indiceEdicion.value === '') {
+    // Es un egresado nuevo
+    listaEgresados.push(egresado);
+  } else {
+    // Estamos editando uno existente
+    const indice = parseInt(indiceEdicion.value);
+    listaEgresados[indice] = egresado;
+  }
 
   localStorage.setItem('egresados', JSON.stringify(listaEgresados));
 
   console.log('Lista de egresados registrados:', listaEgresados);
+
+  mostrarEgresados();
 }
 
 function mostrarError(campo, elementoError, mensaje) {
@@ -118,3 +132,75 @@ function limpiarErrores() {
     error.textContent = '';
   });
 }
+
+function obtenerNombreCarrera(valor) {
+  if (valor === 'software') {
+    return 'Ingeniería en Desarrollo de Software';
+  } else if (valor === 'redes') {
+    return 'Ingeniería en Redes y Seguridad';
+  } else if (valor === 'datos') {
+    return 'Ingeniería en Ciencia de Datos';
+  } else {
+    return valor;
+  }
+}
+
+function mostrarEgresados() {
+  const egresadosGuardados = localStorage.getItem('egresados');
+  const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
+
+  cuerpoTablaEgresados.innerHTML = '';
+
+  listaEgresados.forEach(function (egresado, indice) {
+    const fila = document.createElement('tr');
+
+    fila.innerHTML = `
+      <td>${egresado.carne}</td>
+      <td>${egresado.nombre}</td>
+      <td>${obtenerNombreCarrera(egresado.carrera)}</td>
+      <td>${egresado.anio}</td>
+      <td>
+        <button type="button" onclick="editarEgresado(${indice})">Editar</button>
+        <button type="button" onclick="eliminarEgresado(${indice})">Eliminar</button>
+      </td>
+    `;
+
+    cuerpoTablaEgresados.appendChild(fila);
+  });
+}
+
+function editarEgresado(indice) {
+  const egresadosGuardados = localStorage.getItem('egresados');
+  const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
+  const egresado = listaEgresados[indice];
+
+  inputCarne.value = egresado.carne;
+  inputNombre.value = egresado.nombre;
+  inputCorreo.value = egresado.correo;
+  selectCarrera.value = egresado.carrera;
+  inputAnio.value = egresado.anio;
+
+  indiceEdicion.value = indice;
+  botonGuardar.textContent = 'Actualizar egresado';
+
+  formEgresado.scrollIntoView({ behavior: 'smooth' });
+}
+
+function eliminarEgresado(indice) {
+  const confirmar = confirm('¿Está seguro de que desea eliminar este egresado?');
+
+  if (!confirmar) {
+    return;
+  }
+
+  const egresadosGuardados = localStorage.getItem('egresados');
+  const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
+
+  listaEgresados.splice(indice, 1);
+
+  localStorage.setItem('egresados', JSON.stringify(listaEgresados));
+
+  mostrarEgresados();
+}
+
+mostrarEgresados();
