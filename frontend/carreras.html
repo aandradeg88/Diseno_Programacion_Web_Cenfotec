@@ -31,11 +31,8 @@
         <caption>Carreras registradas</caption>
         <thead>
           <tr>
-            <th scope="col">Código</th>
             <th scope="col">Nombre de la carrera</th>
-            <th scope="col">Duración (años)</th>
-            <th scope="col">Modalidad</th>
-            <th scope="col">Acciones</th>
+            <th scope="col">Descripción</th>
           </tr>
         </thead>
         <tbody id="cuerpoTablaCarreras">
@@ -46,35 +43,16 @@
     <section>
       <h2>Crear carrera</h2>
       <form id="formCarrera">
-        <input type="hidden" id="indiceEdicionCarrera" value="">
-
         <div class="campo">
-          <label for="codigo">Código de la carrera</label>
-          <input type="text" id="codigo" name="codigo" placeholder="Ej: ISW-01" required>
-          <span class="error" id="errorCodigo"></span>
-        </div>
-
-        <div class="campo">
-          <label for="nombre-carrera">Nombre de la carrera</label>
-          <input type="text" id="nombre-carrera" name="nombre-carrera" placeholder="Ej: Ingeniería en Ciencia de Datos" required>
+          <label for="nombreCarrera">Nombre de la carrera</label>
+          <input type="text" id="nombreCarrera" name="nombreCarrera" placeholder="Ej: Ingeniería en Ciencia de Datos" required>
           <span class="error" id="errorNombreCarrera"></span>
         </div>
 
         <div class="campo">
-          <label for="duracion">Duración (años)</label>
-          <input type="number" id="duracion" name="duracion" min="1" max="6" placeholder="Ej: 4" required>
-          <span class="error" id="errorDuracion"></span>
-        </div>
-
-        <div class="campo">
-          <label for="modalidad">Modalidad</label>
-          <select id="modalidad" name="modalidad" required>
-            <option value="">Seleccione una modalidad</option>
-            <option value="presencial">Presencial</option>
-            <option value="virtual">Virtual</option>
-            <option value="hibrida">Híbrida</option>
-          </select>
-          <span class="error" id="errorModalidad"></span>
+          <label for="descripcionCarrera">Descripción</label>
+          <textarea id="descripcionCarrera" name="descripcionCarrera" placeholder="Breve descripción de la carrera" required></textarea>
+          <span class="error" id="errorDescripcionCarrera"></span>
         </div>
 
         <button type="submit" id="botonGuardarCarrera">Guardar carrera</button>
@@ -82,6 +60,9 @@
 
       <article id="mensajeConfirmacionCarrera" class="confirmacion oculto">
         <p>La carrera se registró correctamente.</p>
+      </article>
+      <article id="mensajeErrorCarrera" class="error-servidor oculto">
+        <p>Ocurrió un error al guardar la carrera. Intente de nuevo.</p>
       </article>
     </section>
   </main>

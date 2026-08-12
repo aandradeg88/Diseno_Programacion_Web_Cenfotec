@@ -31,11 +31,11 @@
         <caption>Egresados registrados</caption>
         <thead>
           <tr>
-            <th scope="col">Carné</th>
+            <th scope="col">Identificación</th>
             <th scope="col">Nombre completo</th>
-            <th scope="col">Carrera</th>
-            <th scope="col">Año de graduación</th>
-            <th scope="col">Acciones</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Fecha de registro</th>
           </tr>
         </thead>
         <tbody id="cuerpoTablaEgresados">
@@ -46,40 +46,34 @@
     <section>
       <h2>Crear egresado</h2>
       <form id="formEgresado">
-        <input type="hidden" id="indiceEdicion" value="">
         <div class="campo">
-          <label for="carne">Carné</label>
-          <input type="text" id="carne" name="carne" placeholder="Ej: 2024010001" required>
-          <span class="error" id="errorCarne"></span>
+          <label for="identificacion">Identificación</label>
+          <input type="text" id="identificacion" name="identificacion" placeholder="Ej: 123456789" required>
+          <span class="error" id="errorIdentificacion"></span>
         </div>
 
         <div class="campo">
-          <label for="nombre">Nombre completo</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Nombre y apellidos" required>
-          <span class="error" id="errorNombre"></span>
+          <label for="nombreCompleto">Nombre completo</label>
+          <input type="text" id="nombreCompleto" name="nombreCompleto" placeholder="Nombre y apellidos" required>
+          <span class="error" id="errorNombreCompleto"></span>
         </div>
 
         <div class="campo">
-          <label for="correo-egresado">Correo electrónico</label>
-          <input type="email" id="correo-egresado" name="correo-egresado" placeholder="correo@ucenfotec.ac.cr" required>
+          <label for="correoElectronico">Correo electrónico</label>
+          <input type="email" id="correoElectronico" name="correoElectronico" placeholder="correo@ucenfotec.ac.cr" required>
           <span class="error" id="errorCorreo"></span>
         </div>
 
         <div class="campo">
-          <label for="carrera">Carrera</label>
-          <select id="carrera" name="carrera" required>
-            <option value="">Seleccione una carrera</option>
-            <option value="software">Ingeniería en Desarrollo de Software</option>
-            <option value="redes">Ingeniería en Redes y Seguridad</option>
-            <option value="datos">Ingeniería en Ciencia de Datos</option>
-          </select>
-          <span class="error" id="errorCarrera"></span>
+          <label for="telefono">Teléfono</label>
+          <input type="text" id="telefono" name="telefono" placeholder="Ej: 8888-8888" required>
+          <span class="error" id="errorTelefono"></span>
         </div>
 
         <div class="campo">
-          <label for="anio">Año de graduación</label>
-          <input type="number" id="anio" name="anio" min="2000" max="2026" placeholder="Ej: 2024" required>
-          <span class="error" id="errorAnio"></span>
+          <label for="fechaRegistro">Fecha de registro</label>
+          <input type="date" id="fechaRegistro" name="fechaRegistro" required>
+          <span class="error" id="errorFecha"></span>
         </div>
 
         <button type="submit" id="botonGuardar">Guardar egresado</button>
@@ -87,7 +81,9 @@
 
       <article id="mensajeConfirmacion" class="confirmacion oculto">
         <p>El egresado se registró correctamente.</p>
-
+      </article>
+      <article id="mensajeError" class="error-servidor oculto">
+        <p>Ocurrió un error al guardar el egresado. Intente de nuevo.</p>
       </article>
     </section>
   </main>

@@ -1,104 +1,97 @@
+const URL_API_CARRERAS = 'http://localhost:3000/carreras';
+
 const formCarrera = document.getElementById('formCarrera');
 
-const inputCodigo = document.getElementById('codigo');
-const inputNombreCarrera = document.getElementById('nombre-carrera');
-const inputDuracion = document.getElementById('duracion');
-const selectModalidad = document.getElementById('modalidad');
+const inputNombreCarrera = document.getElementById('nombreCarrera');
+const inputDescripcionCarrera = document.getElementById('descripcionCarrera');
 
-const errorCodigo = document.getElementById('errorCodigo');
 const errorNombreCarrera = document.getElementById('errorNombreCarrera');
-const errorDuracion = document.getElementById('errorDuracion');
-const errorModalidad = document.getElementById('errorModalidad');
+const errorDescripcionCarrera = document.getElementById('errorDescripcionCarrera');
 
 const mensajeConfirmacionCarrera = document.getElementById('mensajeConfirmacionCarrera');
+const mensajeErrorCarrera = document.getElementById('mensajeErrorCarrera');
 const cuerpoTablaCarreras = document.getElementById('cuerpoTablaCarreras');
-const indiceEdicionCarrera = document.getElementById('indiceEdicionCarrera');
 const botonGuardarCarrera = document.getElementById('botonGuardarCarrera');
 
-// Expresiones regulares para validar el formato de cada campo
-const regexCodigo = /^[A-Za-z]{2,5}-[0-9]{2}$/;
 const regexNombreCarrera = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{5,80}$/;
 
-formCarrera.addEventListener('submit', function (evento) {
+formCarrera.addEventListener('submit', async function (evento) {
   evento.preventDefault();
 
   limpiarErroresCarrera();
+  ocultarMensajesCarrera();
 
-  const codigo = inputCodigo.value.trim();
-  const nombreCarrera = inputNombreCarrera.value.trim();
-  const duracion = inputDuracion.value.trim();
-  const modalidad = selectModalidad.value;
+  const nombre = inputNombreCarrera.value.trim();
+  const descripcion = inputDescripcionCarrera.value.trim();
 
   let formularioValido = true;
 
-  if (codigo === '') {
-    mostrarErrorCarrera(inputCodigo, errorCodigo, 'El código es obligatorio.');
-    formularioValido = false;
-  } else if (!regexCodigo.test(codigo)) {
-    mostrarErrorCarrera(inputCodigo, errorCodigo, 'Formato esperado: ISW-01.');
-    formularioValido = false;
-  }
-
-  if (nombreCarrera === '') {
+  if (nombre === '') {
     mostrarErrorCarrera(inputNombreCarrera, errorNombreCarrera, 'El nombre es obligatorio.');
     formularioValido = false;
-  } else if (!regexNombreCarrera.test(nombreCarrera)) {
+  } else if (!regexNombreCarrera.test(nombre)) {
     mostrarErrorCarrera(inputNombreCarrera, errorNombreCarrera, 'Ingrese un nombre válido (solo letras).');
     formularioValido = false;
   }
 
-  if (duracion === '') {
-    mostrarErrorCarrera(inputDuracion, errorDuracion, 'La duración es obligatoria.');
+  if (descripcion === '') {
+    mostrarErrorCarrera(inputDescripcionCarrera, errorDescripcionCarrera, 'La descripción es obligatoria.');
     formularioValido = false;
-  } else if (duracion < 1 || duracion > 6) {
-    mostrarErrorCarrera(inputDuracion, errorDuracion, 'La duración debe estar entre 1 y 6 años.');
-    formularioValido = false;
-  }
-
-  if (modalidad === '') {
-    mostrarErrorCarrera(selectModalidad, errorModalidad, 'Debe seleccionar una modalidad.');
+  } else if (descripcion.length < 10 || descripcion.length > 300) {
+    mostrarErrorCarrera(inputDescripcionCarrera, errorDescripcionCarrera, 'La descripción debe tener entre 10 y 300 caracteres.');
     formularioValido = false;
   }
 
   if (!formularioValido) {
-    mensajeConfirmacionCarrera.classList.add('oculto');
     return;
   }
 
   const nuevaCarrera = {
-    codigo: codigo,
-    nombre: nombreCarrera,
-    duracion: duracion,
-    modalidad: modalidad
+    nombre: nombre,
+    descripcion: descripcion
   };
 
-  guardarCarreraEnLocalStorage(nuevaCarrera);
-
-  formCarrera.reset();
-  indiceEdicionCarrera.value = '';
-  botonGuardarCarrera.textContent = 'Guardar carrera';
-
-  mensajeConfirmacionCarrera.classList.remove('oculto');
+  await guardarCarrera(nuevaCarrera);
 });
 
-function guardarCarreraEnLocalStorage(carrera) {
-  const carrerasGuardadas = localStorage.getItem('carreras');
-  const listaCarreras = carrerasGuardadas ? JSON.parse(carrerasGuardadas) : [];
+async function guardarCarrera(carrera) {
+  try {
+    const respuesta = await fetch(URL_API_CARRERAS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(carrera)
+    });
 
-  if (indiceEdicionCarrera.value === '') {
-    // Es una carrera nueva
-    listaCarreras.push(carrera);
-  } else {
-    // Estamos editando una existente
-    const indice = parseInt(indiceEdicionCarrera.value);
-    listaCarreras[indice] = carrera;
+    if (!respuesta.ok) {
+      throw new Error('El servidor respondió con un error al guardar la carrera.');
+    }
+
+    formCarrera.reset();
+    mensajeConfirmacionCarrera.classList.remove('oculto');
+
+    await consultarCarreras();
+  } catch (error) {
+    console.error('Error al guardar la carrera:', error);
+    mensajeErrorCarrera.classList.remove('oculto');
   }
+}
 
-  localStorage.setItem('carreras', JSON.stringify(listaCarreras));
+async function consultarCarreras() {
+  try {
+    const respuesta = await fetch(URL_API_CARRERAS);
 
-  console.log('Lista de carreras registradas:', listaCarreras);
+    if (!respuesta.ok) {
+      throw new Error('El servidor respondió con un error al consultar las carreras.');
+    }
 
-  mostrarCarreras();
+    const listaCarreras = await respuesta.json();
+    mostrarCarreras(listaCarreras);
+  } catch (error) {
+    console.error('Error al consultar las carreras:', error);
+    mensajeErrorCarrera.classList.remove('oculto');
+  }
 }
 
 function mostrarErrorCarrera(campo, elementoError, mensaje) {
@@ -107,7 +100,7 @@ function mostrarErrorCarrera(campo, elementoError, mensaje) {
 }
 
 function limpiarErroresCarrera() {
-  const campos = document.querySelectorAll('#formCarrera .campo input, #formCarrera .campo select');
+  const campos = document.querySelectorAll('#formCarrera .campo input, #formCarrera .campo textarea');
   const errores = document.querySelectorAll('#formCarrera .error');
 
   campos.forEach(function (campo) {
@@ -119,73 +112,24 @@ function limpiarErroresCarrera() {
   });
 }
 
-function obtenerNombreModalidad(valor) {
-  if (valor === 'presencial') {
-    return 'Presencial';
-  } else if (valor === 'virtual') {
-    return 'Virtual';
-  } else if (valor === 'hibrida') {
-    return 'Híbrida';
-  } else {
-    return valor;
-  }
+function ocultarMensajesCarrera() {
+  mensajeConfirmacionCarrera.classList.add('oculto');
+  mensajeErrorCarrera.classList.add('oculto');
 }
 
-function mostrarCarreras() {
-  const carrerasGuardadas = localStorage.getItem('carreras');
-  const listaCarreras = carrerasGuardadas ? JSON.parse(carrerasGuardadas) : [];
-
+function mostrarCarreras(listaCarreras) {
   cuerpoTablaCarreras.innerHTML = '';
 
-  listaCarreras.forEach(function (carrera, indice) {
+  listaCarreras.forEach(function (carrera) {
     const fila = document.createElement('tr');
 
     fila.innerHTML = `
-      <td>${carrera.codigo}</td>
       <td>${carrera.nombre}</td>
-      <td>${carrera.duracion}</td>
-      <td>${obtenerNombreModalidad(carrera.modalidad)}</td>
-      <td>
-        <button type="button" onclick="editarCarrera(${indice})">Editar</button>
-        <button type="button" onclick="eliminarCarrera(${indice})">Eliminar</button>
-      </td>
+      <td>${carrera.descripcion}</td>
     `;
 
     cuerpoTablaCarreras.appendChild(fila);
   });
 }
 
-function editarCarrera(indice) {
-  const carrerasGuardadas = localStorage.getItem('carreras');
-  const listaCarreras = carrerasGuardadas ? JSON.parse(carrerasGuardadas) : [];
-  const carrera = listaCarreras[indice];
-
-  inputCodigo.value = carrera.codigo;
-  inputNombreCarrera.value = carrera.nombre;
-  inputDuracion.value = carrera.duracion;
-  selectModalidad.value = carrera.modalidad;
-
-  indiceEdicionCarrera.value = indice;
-  botonGuardarCarrera.textContent = 'Actualizar carrera';
-
-  formCarrera.scrollIntoView({ behavior: 'smooth' });
-}
-
-function eliminarCarrera(indice) {
-  const confirmar = confirm('¿Está seguro de que desea eliminar esta carrera?');
-
-  if (!confirmar) {
-    return;
-  }
-
-  const carrerasGuardadas = localStorage.getItem('carreras');
-  const listaCarreras = carrerasGuardadas ? JSON.parse(carrerasGuardadas) : [];
-
-  listaCarreras.splice(indice, 1);
-
-  localStorage.setItem('carreras', JSON.stringify(listaCarreras));
-
-  mostrarCarreras();
-}
-
-mostrarCarreras();
+consultarCarreras();

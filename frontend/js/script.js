@@ -1,118 +1,133 @@
+const URL_API_EGRESADOS = 'http://localhost:3000/egresados';
+
 const formEgresado = document.getElementById('formEgresado');
 
-const inputCarne = document.getElementById('carne');
-const inputNombre = document.getElementById('nombre');
-const inputCorreo = document.getElementById('correo-egresado');
-const selectCarrera = document.getElementById('carrera');
-const inputAnio = document.getElementById('anio');
+const inputIdentificacion = document.getElementById('identificacion');
+const inputNombreCompleto = document.getElementById('nombreCompleto');
+const inputCorreo = document.getElementById('correoElectronico');
+const inputTelefono = document.getElementById('telefono');
+const inputFechaRegistro = document.getElementById('fechaRegistro');
 
-const errorCarne = document.getElementById('errorCarne');
-const errorNombre = document.getElementById('errorNombre');
+const errorIdentificacion = document.getElementById('errorIdentificacion');
+const errorNombreCompleto = document.getElementById('errorNombreCompleto');
 const errorCorreo = document.getElementById('errorCorreo');
-const errorCarrera = document.getElementById('errorCarrera');
-const errorAnio = document.getElementById('errorAnio');
+const errorTelefono = document.getElementById('errorTelefono');
+const errorFecha = document.getElementById('errorFecha');
 
 const mensajeConfirmacion = document.getElementById('mensajeConfirmacion');
+const mensajeError = document.getElementById('mensajeError');
 const cuerpoTablaEgresados = document.getElementById('cuerpoTablaEgresados');
-const indiceEdicion = document.getElementById('indiceEdicion');
 const botonGuardar = document.getElementById('botonGuardar');
 
-// Expresiones regulares para validar el formato de cada campo
-const regexCarne = /^[0-9]{10}$/;
-const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,60}$/;
+const regexIdentificacion = /^[0-9]{9,10}$/;
+const regexNombreCompleto = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,60}$/;
 const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const regexAnio = /^20[0-2][0-9]$/;
+const regexTelefono = /^[0-9]{4}-[0-9]{4}$/;
 
-formEgresado.addEventListener('submit', function (evento) {
+formEgresado.addEventListener('submit', async function (evento) {
   evento.preventDefault();
 
   limpiarErrores();
+  ocultarMensajes();
 
-  const carne = inputCarne.value.trim();
-  const nombre = inputNombre.value.trim();
-  const correo = inputCorreo.value.trim();
-  const carrera = selectCarrera.value;
-  const anio = inputAnio.value.trim();
+  const identificacion = inputIdentificacion.value.trim();
+  const nombreCompleto = inputNombreCompleto.value.trim();
+  const correoElectronico = inputCorreo.value.trim();
+  const telefono = inputTelefono.value.trim();
+  const fechaRegistro = inputFechaRegistro.value;
 
   let formularioValido = true;
 
-  if (carne === '') {
-    mostrarError(inputCarne, errorCarne, 'El carné es obligatorio.');
+  if (identificacion === '') {
+    mostrarError(inputIdentificacion, errorIdentificacion, 'La identificación es obligatoria.');
     formularioValido = false;
-  } else if (!regexCarne.test(carne)) {
-    mostrarError(inputCarne, errorCarne, 'El carné debe tener 10 dígitos.');
-    formularioValido = false;
-  }
-
-  if (nombre === '') {
-    mostrarError(inputNombre, errorNombre, 'El nombre es obligatorio.');
-    formularioValido = false;
-  } else if (!regexNombre.test(nombre)) {
-    mostrarError(inputNombre, errorNombre, 'Ingrese un nombre válido (solo letras).');
+  } else if (!regexIdentificacion.test(identificacion)) {
+    mostrarError(inputIdentificacion, errorIdentificacion, 'La identificación debe tener 9 o 10 dígitos.');
     formularioValido = false;
   }
 
-  if (correo === '') {
+  if (nombreCompleto === '') {
+    mostrarError(inputNombreCompleto, errorNombreCompleto, 'El nombre es obligatorio.');
+    formularioValido = false;
+  } else if (!regexNombreCompleto.test(nombreCompleto)) {
+    mostrarError(inputNombreCompleto, errorNombreCompleto, 'Ingrese un nombre válido (solo letras).');
+    formularioValido = false;
+  }
+
+  if (correoElectronico === '') {
     mostrarError(inputCorreo, errorCorreo, 'El correo es obligatorio.');
     formularioValido = false;
-  } else if (!regexCorreo.test(correo)) {
+  } else if (!regexCorreo.test(correoElectronico)) {
     mostrarError(inputCorreo, errorCorreo, 'Ingrese un correo con formato válido.');
     formularioValido = false;
   }
 
-  if (carrera === '') {
-    mostrarError(selectCarrera, errorCarrera, 'Debe seleccionar una carrera.');
+  if (telefono === '') {
+    mostrarError(inputTelefono, errorTelefono, 'El teléfono es obligatorio.');
+    formularioValido = false;
+  } else if (!regexTelefono.test(telefono)) {
+    mostrarError(inputTelefono, errorTelefono, 'Formato esperado: 8888-8888.');
     formularioValido = false;
   }
 
-  if (anio === '') {
-    mostrarError(inputAnio, errorAnio, 'El año de graduación es obligatorio.');
-    formularioValido = false;
-  } else if (!regexAnio.test(anio)) {
-    mostrarError(inputAnio, errorAnio, 'Ingrese un año válido (2000-2029).');
+  if (fechaRegistro === '') {
+    mostrarError(inputFechaRegistro, errorFecha, 'La fecha de registro es obligatoria.');
     formularioValido = false;
   }
 
   if (!formularioValido) {
-    mensajeConfirmacion.classList.add('oculto');
     return;
   }
 
   const nuevoEgresado = {
-    carne: carne,
-    nombre: nombre,
-    correo: correo,
-    carrera: carrera,
-    anio: anio
+    identificacion: identificacion,
+    nombreCompleto: nombreCompleto,
+    correoElectronico: correoElectronico,
+    telefono: telefono,
+    fechaRegistro: fechaRegistro
   };
 
-  guardarEnLocalStorage(nuevoEgresado);
-
-  formEgresado.reset();
-  indiceEdicion.value = '';
-  botonGuardar.textContent = 'Guardar egresado';
-
-  mensajeConfirmacion.classList.remove('oculto');
+  await guardarEgresado(nuevoEgresado);
 });
 
-function guardarEnLocalStorage(egresado) {
-  const egresadosGuardados = localStorage.getItem('egresados');
-  const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
+async function guardarEgresado(egresado) {
+  try {
+    const respuesta = await fetch(URL_API_EGRESADOS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(egresado)
+    });
 
-  if (indiceEdicion.value === '') {
-    // Es un egresado nuevo
-    listaEgresados.push(egresado);
-  } else {
-    // Estamos editando uno existente
-    const indice = parseInt(indiceEdicion.value);
-    listaEgresados[indice] = egresado;
+    if (!respuesta.ok) {
+      throw new Error('El servidor respondió con un error al guardar el egresado.');
+    }
+
+    formEgresado.reset();
+    mensajeConfirmacion.classList.remove('oculto');
+
+    await consultarEgresados();
+  } catch (error) {
+    console.error('Error al guardar el egresado:', error);
+    mensajeError.classList.remove('oculto');
   }
+}
 
-  localStorage.setItem('egresados', JSON.stringify(listaEgresados));
+async function consultarEgresados() {
+  try {
+    const respuesta = await fetch(URL_API_EGRESADOS);
 
-  console.log('Lista de egresados registrados:', listaEgresados);
+    if (!respuesta.ok) {
+      throw new Error('El servidor respondió con un error al consultar los egresados.');
+    }
 
-  mostrarEgresados();
+    const listaEgresados = await respuesta.json();
+    mostrarEgresados(listaEgresados);
+  } catch (error) {
+    console.error('Error al consultar los egresados:', error);
+    mensajeError.classList.remove('oculto');
+  }
 }
 
 function mostrarError(campo, elementoError, mensaje) {
@@ -121,8 +136,8 @@ function mostrarError(campo, elementoError, mensaje) {
 }
 
 function limpiarErrores() {
-  const campos = document.querySelectorAll('.campo input, .campo select');
-  const errores = document.querySelectorAll('.error');
+  const campos = document.querySelectorAll('#formEgresado .campo input');
+  const errores = document.querySelectorAll('#formEgresado .error');
 
   campos.forEach(function (campo) {
     campo.classList.remove('invalido');
@@ -133,74 +148,34 @@ function limpiarErrores() {
   });
 }
 
-function obtenerNombreCarrera(valor) {
-  if (valor === 'software') {
-    return 'Ingeniería en Desarrollo de Software';
-  } else if (valor === 'redes') {
-    return 'Ingeniería en Redes y Seguridad';
-  } else if (valor === 'datos') {
-    return 'Ingeniería en Ciencia de Datos';
-  } else {
-    return valor;
-  }
+function ocultarMensajes() {
+  mensajeConfirmacion.classList.add('oculto');
+  mensajeError.classList.add('oculto');
 }
 
-function mostrarEgresados() {
-  const egresadosGuardados = localStorage.getItem('egresados');
-  const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
-
+function mostrarEgresados(listaEgresados) {
   cuerpoTablaEgresados.innerHTML = '';
 
-  listaEgresados.forEach(function (egresado, indice) {
+  listaEgresados.forEach(function (egresado) {
     const fila = document.createElement('tr');
 
     fila.innerHTML = `
-      <td>${egresado.carne}</td>
-      <td>${egresado.nombre}</td>
-      <td>${obtenerNombreCarrera(egresado.carrera)}</td>
-      <td>${egresado.anio}</td>
-      <td>
-        <button type="button" onclick="editarEgresado(${indice})">Editar</button>
-        <button type="button" onclick="eliminarEgresado(${indice})">Eliminar</button>
-      </td>
+      <td>${egresado.identificacion}</td>
+      <td>${egresado.nombreCompleto}</td>
+      <td>${egresado.correoElectronico}</td>
+      <td>${egresado.telefono}</td>
+      <td>${formatearFecha(egresado.fechaRegistro)}</td>
     `;
 
     cuerpoTablaEgresados.appendChild(fila);
   });
 }
 
-function editarEgresado(indice) {
-  const egresadosGuardados = localStorage.getItem('egresados');
-  const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
-  const egresado = listaEgresados[indice];
-
-  inputCarne.value = egresado.carne;
-  inputNombre.value = egresado.nombre;
-  inputCorreo.value = egresado.correo;
-  selectCarrera.value = egresado.carrera;
-  inputAnio.value = egresado.anio;
-
-  indiceEdicion.value = indice;
-  botonGuardar.textContent = 'Actualizar egresado';
-
-  formEgresado.scrollIntoView({ behavior: 'smooth' });
-}
-
-function eliminarEgresado(indice) {
-  const confirmar = confirm('¿Está seguro de que desea eliminar este egresado?');
-
-  if (!confirmar) {
-    return;
+function formatearFecha(fechaISO) {
+  if (!fechaISO) {
+    return '';
   }
-
-  const egresadosGuardados = localStorage.getItem('egresados');
-  const listaEgresados = egresadosGuardados ? JSON.parse(egresadosGuardados) : [];
-
-  listaEgresados.splice(indice, 1);
-
-  localStorage.setItem('egresados', JSON.stringify(listaEgresados));
-
-  mostrarEgresados();
+  return fechaISO.substring(0, 10);
 }
 
-mostrarEgresados();
+consultarEgresados();

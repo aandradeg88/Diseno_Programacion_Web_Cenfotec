@@ -290,3 +290,13 @@ footer {
 .oculto {
   display: none;
 }
+.error-servidor {
+  margin-top: 18px;
+  padding: 12px;
+  background-color: #fdecea;
+  border: 1px solid #c0392b;
+  color: #c0392b;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+}
