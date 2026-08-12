@@ -179,3 +179,5 @@ function formatearFecha(fechaISO) {
 }
 
 consultarEgresados();
+
+// Comentario agregado para documentar el codigo
